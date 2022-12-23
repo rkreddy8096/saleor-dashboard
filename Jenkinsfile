@@ -6,7 +6,7 @@ pipeline {
     stages {
         stage('vcs') {
             steps {
-                git branch: 'main', url: 'https://github.com/rkreddy8096/saleor-dashboard.git'
+                git branch: 'dev', url: 'https://github.com/rkreddy8096/saleor-dashboard.git'
             }
         }
         stage('docker image build') {
@@ -17,6 +17,13 @@ pipeline {
         stage('push image to registry') {
             steps {
                 sh 'docker image push reddy8096/saleor-dashboar:DEV'
+            }
+        }
+         stage('create terraform infrastructre') {
+            agent { label 'terraform' }
+            steps {
+                git url: 'git clone https://github.com/hashicorp/learn-terraform-provision-eks-cluster'
+                sh 'terraform init && terraform apply -auto-approve'
             }
         }
     }
