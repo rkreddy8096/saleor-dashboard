@@ -19,13 +19,13 @@ pipeline {
                 sh 'docker image push reddy8096/saleor-dashboar:DEV'
             }
         }
-        
         stage('create terraform infrastructre') {
             agent { label 'build' }
             steps {
                 sh 'git clone https://github.com/hashicorp/learn-terraform-provision-eks-cluster'
-                sh 'cd /learn-terraform-provision-eks-cluster'
+                dir("learn-terraform-provision-eks-cluster") {
                 sh 'terraform init && terraform apply -auto-approve'
+               }
             }
         }
     }
