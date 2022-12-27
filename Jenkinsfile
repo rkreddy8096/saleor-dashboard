@@ -20,7 +20,6 @@ pipeline {
             }
         }
         stage('create terraform infrastructre') {
-            agent { label 'build' }
             steps {
                 sh 'git clone https://github.com/hashicorp/learn-terraform-provision-eks-cluster'
                 dir("learn-terraform-provision-eks-cluster") {
